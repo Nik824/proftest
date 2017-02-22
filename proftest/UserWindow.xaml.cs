@@ -35,9 +35,9 @@ namespace proftest
             using (FileStream fs = new FileStream("test.xml", FileMode.OpenOrCreate))
             {
                 Admin adm = (Admin)formatter.Deserialize(fs);
-              
-              
-               
+
+
+                // не виходить Name із Test добути.
 
                 tests.ItemsSource = adm.Tests;
             }
@@ -45,16 +45,23 @@ namespace proftest
           
         }
 
-        
+  // не виходить дані привязати навіть до textBlock, не те що до radiobutton
+  // не знаю,як вививести List< Question> у форму; у MVC,я як робив, то там List-ову властивість у foreach -і шаблоном displayforModel можна вивести.
         private void start_Click(object sender, RoutedEventArgs e)
         {
-            select.Visibility = Visibility.Hidden;
-            testing.Visibility = Visibility.Visible;
-            finish.IsEnabled = true;
+            
           Test selectItem = (Test) tests.SelectedItem;
-         List<Question> listQuestions =   selectItem.Questions;
 
-            this.DataContext = listQuestions;
+            if (selectItem != null)
+            {
+                select.Visibility = Visibility.Hidden;
+                testing.Visibility = Visibility.Visible;
+                finish.IsEnabled = true;
+                List<Question> listQuestions = selectItem.Questions;
+
+                this.DataContext = listQuestions;
+            }
+            else MessageBox.Show("select test");
           
         }
 
@@ -64,6 +71,11 @@ namespace proftest
             select.Visibility = Visibility.Visible;
             finish.IsEnabled = false;
             start.IsEnabled = true;
+        }
+
+        private void exit_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
     }
 }

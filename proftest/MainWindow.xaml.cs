@@ -27,19 +27,14 @@ namespace proftest
     public partial class MainWindow : Window
     {
         Admin admin1 = new Admin();
-        Test t = new Test();
-        Question q = new Question();
-        //TestContext db;
+    
+  
         public MainWindow()
         {
-            //Database.SetInitializer(new DbInitializer());
-            //var db = new TestContext();
+         
             InitializeComponent();
 
-            //  db.Tests.Load();
-
-            //List<string> t = new List<string> { "iPhone 6S Plus", "Nexus 6P", "Galaxy S7 Edge" };
-            //phonesList.ItemsSource = t;
+          
 
             Main.Visibility = Visibility.Visible;
             Test.Visibility = Visibility.Hidden;
@@ -47,19 +42,15 @@ namespace proftest
             button.IsEnabled = true;
             button1.IsEnabled = false;
 
-            //  this.Closing += MainWindow_Closing;
+         
         }
 
 
+public Test testE { get; set; }
 
 
 
-
-        //private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        //{
-        //    db.Dispose();
-        //}
-
+      
         private void button_Click(object sender, RoutedEventArgs e)
         {
 
@@ -83,6 +74,8 @@ namespace proftest
 
         private void button2_Click(object sender, RoutedEventArgs e)
         {
+            Test t = new Test();
+            testE = t;
             Quest.Visibility = Visibility.Visible;
             Main.Visibility = Visibility.Hidden;
             Test.Visibility = Visibility.Hidden;
@@ -93,7 +86,7 @@ namespace proftest
 
         private void buttonAdd_Click(object sender, RoutedEventArgs e)
         {
-            
+            Question q = new Question();
             q.Quest = textBox.Text;
           
            string a1 = textBox1.Text;
@@ -102,13 +95,12 @@ namespace proftest
            string a4 = textBox4.Text;
             q.answers = new List<string>() { a1, a4, a2, a3 };
 
-            t.Add(q);
-            admin1.Tests.Add(t);
-            // t.Questions = new List<Question>() {q };
-            //if (q != null & t != null)
-            //{
-            //    t.Questions.Add(q);
-            //}
+            testE.Add(q);
+           // t.Add(q);
+
+           // admin1.Tests.Add(t);
+            admin1.Tests.Add(testE);
+
 
             XmlSerializer formatter = new XmlSerializer(typeof(Admin));
             using (FileStream fs = new FileStream("test.xml", FileMode.OpenOrCreate))

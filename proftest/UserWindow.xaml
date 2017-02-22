@@ -8,20 +8,21 @@
         Title="UserWindow" Height="300" Width="300">
     <Grid >
         <Grid Name="select" HorizontalAlignment="Left" Height="266" Margin="-1,2,-1,0" VerticalAlignment="Top" Width="294">
-            <Button Name="start" Content="Start" Height="25" Margin="102,17,106,228" Click="start_Click"/>
+            <Button Name="start" Content="Start" Margin="102,10,106,224" Click="start_Click"/>
+            <Button Name="exit" Content="Exit" Height="25" Margin="199,19,9,222" Click="exit_Click"/>
             <Label Margin="15,11,206,231">Select test</Label>
             <ListBox Name="tests" SelectionMode="Single"  Margin="-3,49,3,6" />
         </Grid>
-       
+
         <Grid Name="testing" HorizontalAlignment="Left" Height="266" Margin="-1,2,-1,0" VerticalAlignment="Top" Width="294">
-            <Button Name="finish" Content="finish" Margin="194,15,13,225" Click="finish_Click"/>
-            <GroupBox Margin="5" Padding="10" Header="Test">
-              
+            <Button Name="finish" Content="finish" Margin="194,11,13,223" Click="finish_Click"/>
+            <GroupBox Margin="5,-1,5,5" Padding="10" Header="Test">
 
 
-                <StackPanel>
+
+                <StackPanel Margin="0,22,0,0">
                     <TextBlock Text="{Binding Path=Quest}" />
-                    <TextBlock DataContext="{Binding Path=answers[0]}" Text="{Binding Path=answers[0]}" />
+                    <TextBlock DataContext="{Binding answers[0]}" Text="{Binding answers[0]}" />
                 </StackPanel>
             </GroupBox>
         </Grid>
