@@ -65,18 +65,21 @@ namespace proftest
 
 public Test currentTest { get; set; }
  public bool result { get; set; } = true;
-
-      
+public bool selectObj { get; set; } = false;
+        // початок тесту
         private void start_Click(object sender, RoutedEventArgs e)
         {
             
             Test selectItem = (Test) tests.SelectedItem;
             currentTest = selectItem;
+            // якщо вибраний певний тест
             if (selectItem != null)
             {
                 select.Visibility = Visibility.Hidden;
                 testing.Visibility = Visibility.Visible;
                 finish.IsEnabled = true;
+
+                //записуєм список запитання
                 List<Question> listQuestions = selectItem.Questions;
 
                
@@ -84,7 +87,7 @@ public Test currentTest { get; set; }
 
                 Radiobutton1[] rd = new Radiobutton1[4];
 
-
+                //перебираєм масив запитань
                 foreach (var item in listQuestions)
                 {
                     
@@ -96,7 +99,7 @@ public Test currentTest { get; set; }
                     int index = 0;
                     int rightIndex = int.Parse(item.Right);
 
-
+                    //перебираєм масив відповідей та записуємо їх в масив радіобаттонів
                     foreach (var elem in item.answers)
                     {
                       
@@ -104,6 +107,8 @@ public Test currentTest { get; set; }
                         rd[index].Height = 18;
                         rd[index].Content = elem;
                         rd[index].TrueOrNot = false;
+                      
+                        //якщо відповідь вірна - то записуєм в свойство рд-бна тру.
                         if (index == rightIndex)
                         {
                             rd[index].TrueOrNot = true;
@@ -113,7 +118,7 @@ public Test currentTest { get; set; }
                     }
 
 
-
+                    // додаємо все це в стекпанель
                     stPanel.Children.Add(lQuest);             
 
                     foreach (var items in rd)
@@ -121,7 +126,7 @@ public Test currentTest { get; set; }
                        stPanel.Children.Add(items);
                     } 
                        
-                                
+                        //додаємо панелів грід        
                     answers.Children.Add(stPanel);
                     i++; 
                 }            
@@ -139,40 +144,53 @@ public Test currentTest { get; set; }
 
             var st=  answers.Children;
 
-     
+            //список StackPanel, що містить обєкти типу Question(1 поле textblock and 4 fields radiobutton;
             foreach (var item in st)
             {
            StackPanel s = (StackPanel) item;
             var rad =   s.Children;
 
-                
+                // list objects: 1 поле textblock and 4 fields radiobutton
                 foreach (var it in rad)
                 {
-                   
+                   // якщо текстблок пропускаєм
                     if (it.GetType() == typeof(TextBlock)) continue;
                     
                     else
                     {
                         Radiobutton1 r = (Radiobutton1)it;
-                        if (r.IsChecked == true & r.TrueOrNot == false)
-                        {
 
-                            result = false;
-                            goto M;
+                        if (r.IsChecked == false)
+                        
+                            continue;
+                        else {
+                          
+                           
+                                selectObj = true;
+
+                                if (r.TrueOrNot == false)
+                                {
+                                    result = false;
+                                    goto M;
+                                }
+
+                            
+                         
+
+
                         }
-                        else result = true;
                     }
                 }
             }
 
-         M:   if (result == false)
+         M:   if (result == false | selectObj==false)
             {
                 MessageBox.Show("your test is wrong");
             }
 
             else
             MessageBox.Show("your test is right");
-
+         //видаляємо елементи із grid answers;
             answers.Children.Clear();
             exit.IsEnabled = true;
         }

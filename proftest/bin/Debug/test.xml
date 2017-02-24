@@ -1,0 +1,73 @@
+<?xml version="1.0"?>
+<Admin xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Id>0</Id>
+  <Tests >
+  <Test>
+      <Name>С# basic</Name>
+      <Questions>
+        <Question>
+          <answers>
+            <string>program langage</string>
+            <string>script framework</string>
+            <string>pattern</string>
+            <string>technology</string>
+          </answers>
+          <Quest>What is C#</Quest>
+          <Right>0</Right>
+        </Question>
+        <Question>
+          <answers>
+            <string>I dont know</string>
+            <string>smth interesting</string>
+            <string>some package</string>
+            <string>type</string>
+          </answers>
+          <Quest>What is class in C#</Quest>
+          <Right>3</Right>
+        </Question>
+        <Question>
+          <answers>
+            <string>1995</string>
+            <string>2002</string>
+            <string>2007</string>
+            <string>2005</string>
+          </answers>
+          <Quest>When C# was born</Quest>
+          <Right>1</Right>
+        </Question>
+        <Question>
+          <answers>
+            <string>abstract element</string>
+            <string>instance</string>
+            <string>smth wrong</string>
+            <string>else</string>
+          </answers>
+          <Quest>What is interface</Quest>
+          <Right>0</Right>
+        </Question>
+        <Question>
+          <answers>
+            <string>heap</string>
+            <string>stack</string>
+            <string>memory</string>
+            <string>heaven</string>
+          </answers>
+          <Quest>Where structure is located</Quest>
+          <Right>1</Right>
+        </Question>
+        <Question>
+          <answers>
+            <string>pattern</string>
+            <string>object</string>
+            <string>ORM</string>
+            <string>database</string>
+          </answers>
+          <Quest>What is Entity Framework?</Quest>
+          <Right>2</Right>
+        </Question>
+      </Questions>
+    </Test>
+  </Tests>
+</Admin>
+
+
