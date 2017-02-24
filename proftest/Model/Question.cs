@@ -14,7 +14,7 @@ namespace proftest.Model
 
      public   List<string> answers;
 
-        
+      public  string Right { get; set; }
 
 
     }

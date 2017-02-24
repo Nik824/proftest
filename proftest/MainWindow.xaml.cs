@@ -28,33 +28,27 @@ namespace proftest
     {
         Admin admin1 = new Admin();
     
-  
         public MainWindow()
         {
          
             InitializeComponent();
-
-          
-
+            
             Main.Visibility = Visibility.Visible;
             Test.Visibility = Visibility.Hidden;
             Quest.Visibility = Visibility.Hidden;
             button.IsEnabled = true;
             button1.IsEnabled = false;
 
-         
         }
 
 
-public Test testE { get; set; }
+    public List<Test> testE { get; set; } = new List<Model.Test>(5);
 
-
-
-      
+        
+     
         private void button_Click(object sender, RoutedEventArgs e)
         {
-
-
+            
             Main.Visibility = Visibility.Hidden;
             Test.Visibility = Visibility.Visible;
             Quest.Visibility = Visibility.Hidden;
@@ -70,18 +64,23 @@ public Test testE { get; set; }
             button.IsEnabled = true;
             button1.IsEnabled = false;
         }
-      
+
+        int i = 0;
 
         private void button2_Click(object sender, RoutedEventArgs e)
         {
-            Test t = new Test();
-            testE = t;
+          testE.Add( new Model.Test());
+            
+            
             Quest.Visibility = Visibility.Visible;
             Main.Visibility = Visibility.Hidden;
             Test.Visibility = Visibility.Hidden;
-           
-            t.Name = nameTest.Text;
+
+            testE[i].Name = nameTest.Text;
             button1.IsEnabled = true;
+           
+          
+            i++;
         }
 
         private void buttonAdd_Click(object sender, RoutedEventArgs e)
@@ -93,13 +92,12 @@ public Test testE { get; set; }
            string a2 = textBox2.Text;
            string a3 = textBox3.Text;
            string a4 = textBox4.Text;
-            q.answers = new List<string>() { a1, a4, a2, a3 };
+            q.Right = textBox5.Text;
+            q.answers = new List<string>() { a1, a2, a3 ,a4};
 
-            testE.Add(q);
-           // t.Add(q);
-
-           // admin1.Tests.Add(t);
-            admin1.Tests.Add(testE);
+            testE[i-1].Add(q);
+         
+            admin1.Tests.Add(testE[i-1]);
 
 
             XmlSerializer formatter = new XmlSerializer(typeof(Admin));
@@ -112,6 +110,7 @@ public Test testE { get; set; }
             textBox2.Text="";
             textBox3.Text="";
             textBox4.Text= "";
+            textBox5.Text = "";
         }
 
         private void buttonExit_Click(object sender, RoutedEventArgs e)

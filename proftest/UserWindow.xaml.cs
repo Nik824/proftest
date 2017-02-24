@@ -13,7 +13,9 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using proftest.Model;
 using System.IO;
-
+using System.Drawing;
+using System.ComponentModel;
+using System.Windows.Controls.Primitives;
 
 
 using System.Xml.Serialization;
@@ -31,27 +33,45 @@ namespace proftest
             select.Visibility = Visibility.Visible;
             finish.IsEnabled = false;
             start.IsEnabled = true;
-            XmlSerializer formatter = new XmlSerializer(typeof(Admin));
-            using (FileStream fs = new FileStream("test.xml", FileMode.OpenOrCreate))
+
+
+            string path = @"test.xml";
+            FileInfo fileNew = new FileInfo(path);
+            if (fileNew.Exists)
             {
-                Admin adm = (Admin)formatter.Deserialize(fs);
-
-
-                // не виходить Name із Test добути.
-
-                tests.ItemsSource = adm.Tests;
+                XmlSerializer formatter = new XmlSerializer(typeof(Admin));
+                using (FileStream fs = new FileStream("test.xml", FileMode.OpenOrCreate))
+                {
+                    Admin adm = (Admin)formatter.Deserialize(fs);   
+                    tests.ItemsSource = adm.Tests;
+                  
+                }
             }
+            else
+            {
+                XmlSerializer formatter = new XmlSerializer(typeof(Admin));
+                using (FileStream fs = new FileStream("base.xml", FileMode.OpenOrCreate))
+                {
+                    Admin adm = (Admin)formatter.Deserialize(fs);
 
-          
+                    tests.ItemsSource = adm.Tests;
+
+                }
+            }
+            
         }
 
-  // не виходить дані привязати навіть до textBlock, не те що до radiobutton
-  // не знаю,як вививести List< Question> у форму; у MVC,я як робив, то там List-ову властивість у foreach -і шаблоном displayforModel можна вивести.
+
+
+public Test currentTest { get; set; }
+ public bool result { get; set; } = true;
+
+      
         private void start_Click(object sender, RoutedEventArgs e)
         {
             
-          Test selectItem = (Test) tests.SelectedItem;
-
+            Test selectItem = (Test) tests.SelectedItem;
+            currentTest = selectItem;
             if (selectItem != null)
             {
                 select.Visibility = Visibility.Hidden;
@@ -59,23 +79,108 @@ namespace proftest
                 finish.IsEnabled = true;
                 List<Question> listQuestions = selectItem.Questions;
 
-                this.DataContext = listQuestions;
+               
+                int i = 0;
+
+                Radiobutton1[] rd = new Radiobutton1[4];
+
+
+                foreach (var item in listQuestions)
+                {
+                    
+                    var stPanel = new StackPanel();
+               
+                    var lQuest = new TextBlock();
+
+                    lQuest.Text = item.Quest;
+                    int index = 0;
+                    int rightIndex = int.Parse(item.Right);
+
+
+                    foreach (var elem in item.answers)
+                    {
+                      
+                        rd[index] = new Radiobutton1();
+                        rd[index].Height = 18;
+                        rd[index].Content = elem;
+                        rd[index].TrueOrNot = false;
+                        if (index == rightIndex)
+                        {
+                            rd[index].TrueOrNot = true;
+                        }
+
+                        index++;
+                    }
+
+
+
+                    stPanel.Children.Add(lQuest);             
+
+                    foreach (var items in rd)
+                    {
+                       stPanel.Children.Add(items);
+                    } 
+                       
+                                
+                    answers.Children.Add(stPanel);
+                    i++; 
+                }            
             }
             else MessageBox.Show("select test");
           
         }
 
         private void finish_Click(object sender, RoutedEventArgs e)
-        {
+        {          
             testing.Visibility = Visibility.Hidden;
             select.Visibility = Visibility.Visible;
             finish.IsEnabled = false;
             start.IsEnabled = true;
+
+            var st=  answers.Children;
+
+     
+            foreach (var item in st)
+            {
+           StackPanel s = (StackPanel) item;
+            var rad =   s.Children;
+
+                
+                foreach (var it in rad)
+                {
+                   
+                    if (it.GetType() == typeof(TextBlock)) continue;
+                    
+                    else
+                    {
+                        Radiobutton1 r = (Radiobutton1)it;
+                        if (r.IsChecked == true & r.TrueOrNot == false)
+                        {
+
+                            result = false;
+                            goto M;
+                        }
+                        else result = true;
+                    }
+                }
+            }
+
+         M:   if (result == false)
+            {
+                MessageBox.Show("your test is wrong");
+            }
+
+            else
+            MessageBox.Show("your test is right");
+
+            answers.Children.Clear();
+            exit.IsEnabled = true;
         }
 
         private void exit_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
         }
+
     }
 }
